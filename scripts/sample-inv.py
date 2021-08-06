@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+
 import operator
+import os
 import random
+import sys
 
-import gym
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from app.envs import InventoryEnv
 
-env = gym.make("Blackjack-v0")
+
+env = InventoryEnv()
 
 # Q-table
 q_table = {}
@@ -12,13 +17,12 @@ q_table = {}
 # Hyperparameters (alpha,gamma,epilson)
 alpha = 0.1
 gamma = 0.8
-epsilon = 0.2
-epsilon_decay = 0.999
+epsilon = 0.1
 
 # Plotting metrix
 reward_list = []
 
-episode_number = 1000001
+episode_number = 100001
 for i in range(0, episode_number):
     # Initialize enviroment
     state = env.reset()
@@ -29,16 +33,16 @@ for i in range(0, episode_number):
 
         if random.uniform(0, 1) < epsilon or state not in q_table:
             action = env.action_space.sample()
-            epsilon *= epsilon_decay
         else:
-            # action = np.argmax(q_table[state])
+            print(q_table[state])
             action = max(q_table[state].items(), key=operator.itemgetter(1))[0]
-
-        # print('state: ' + str(state))
-        # print('action: ' + str(action))
+            input()
 
         # action process take reward/observation
         next_state, reward, done, info = env.step(action)
+        print('state: ' + str(state))
+        print('action: ' + str(action))
+        print('reward: ' + str(reward))
 
         # Q-Learning Function
         old_value = 0.0
@@ -63,9 +67,9 @@ for i in range(0, episode_number):
         if done:
             reward_list.append(reward_count)
 
-            if i % 100 == 0:
+            if i % 10 == 0:
                 print("Episode: {} , Reward: {} ".format(i, sum(reward_list)))
             break
+        input()
 
 print("Final reward: {}".format(sum(reward_list)))
-print(q_table)

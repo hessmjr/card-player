@@ -9,15 +9,8 @@ class Predictor:
     def reset_state(self, observation, random_guess):
         pass
 
-    def guess(self, prev_guess, observation, reward):
-
+    def predict(self, prev_guess, observation, reward):
         pass
 
     def terminate(self):
         pass
-
-class Learn:
-    pass
-
-class Observations:
-    pass

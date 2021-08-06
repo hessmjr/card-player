@@ -6,10 +6,12 @@ import random
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+# import needed to build and run registrar
+# noinspection PyUnresolvedReferences
 from app.envs import InventoryEnv
+import gym
 
-
-env = InventoryEnv()
+env = gym.make('Inventory-v1')
 
 # Q-table
 q_table = {}

@@ -29,7 +29,8 @@ for i in range(0, episode_number):
 
         if random.uniform(0, 1) < epsilon or state not in q_table:
             action = env.action_space.sample()
-            epsilon *= epsilon_decay
+            if state in q_table:
+                epsilon *= epsilon_decay
         else:
             # action = np.argmax(q_table[state])
             action = max(q_table[state].items(), key=operator.itemgetter(1))[0]
